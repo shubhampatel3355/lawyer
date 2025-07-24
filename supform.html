@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+</head>
+<body>
+<form id="legal-form">
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="email" name="email" placeholder="Your Email" required />
+  <textarea name="message" placeholder="Your Message" required></textarea>
+  <button type="submit">Submit</button>
+</form>
+
+
+
+
+<script>
+  const SUPABASE_URL = 'https://vnfuqfvmfhxgfglldexu.supabase.co'
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZuZnVxZnZtZmh4Z2ZnbGxkZXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyMTA0MTYsImV4cCI6MjA2Nzc4NjQxNn0.HSCmTfYKDhUgbHtPBstMmtir7TNpB8as1a_UODClwmI'
+
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+
+  document.getElementById('legal-form').addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    const name = e.target.name.value
+    const email = e.target.email.value
+    const message = e.target.message.value
+
+    const { data, error } = await supabase
+      .from('legal_forms')  // this is your actual table name
+      .insert([{ name, email, message }])
+
+    if (error) {
+      console.error('Error:', error)
+      alert('Submission failed: ' + error.message)
+    } else {
+      console.log('Success:', data)
+      alert('Form submitted successfully!')
+      e.target.reset()
+    }
+  })
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Form Submissions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar {
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: absolute;
+                z-index: 10;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+
+        .status-pending {
+            background-color: #fef08a;
+            color: #854d0e;
+        }
+
+        .status-approved {
+            background-color: #bbf7d0;
+            color: #166534;
+        }
+
+        .status-rejected {
+            background-color: #fecaca;
+            color: #991b1b;
+        }
+
+        .status-processing {
+            background-color: #bfdbfe;
+            color: #1e40af;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Topbar -->
+            <header class="bg-white shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center">
+                        <button id="sidebarToggle" class="md:hidden text-gray-500 focus:outline-none">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h2 class="text-xl font-semibold text-gray-800 ml-4">Lawyer Data</h2>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-bell text-gray-500 text-xl"></i>
+                            <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                        </div>
+                        <a href="login.html" class="flex items-center text-gray-700 hover:text-indigo-600">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <!-- Filters and Search -->
+                <div
+                    class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+                    <div class="flex space-x-2">
+                        <div class="relative">
+                            <select id="statusFilter"
+                                class="block appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-indigo-500">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="processing">Processing</option>
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <select
+                                class="block appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-indigo-500">
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Last 90 days</option>
+                                <option>This year</option>
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative w-full md:w-auto">
+                        <input type="text" id="searchById" placeholder="Search submissions..."
+                            class="bg-white border border-gray-300 text-gray-700 py-2 px-4 pl-10 rounded leading-tight focus:outline-none focus:border-indigo-500 w-full">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Submissions</p>
+                                <h3 class="text-2xl font-bold" data-stat="total">0</h3>
+                            </div>
+                            <div class="bg-indigo-100 p-3 rounded-full">
+                                <i class="fas fa-file-alt text-indigo-600"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending -->
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 text-sm">Pending</p>
+                                <h3 class="text-2xl font-bold" data-stat="pending">0</h3>
+                            </div>
+                            <div class="bg-yellow-100 p-3 rounded-full">
+                                <i class="fas fa-clock text-yellow-600"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Approved -->
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 text-sm">Approved</p>
+                                <h3 class="text-2xl font-bold" data-stat="approved">0</h3>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i class="fas fa-check-circle text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rejected -->
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 text-sm">Rejected</p>
+                                <h3 class="text-2xl font-bold" data-stat="rejected">0</h3>
+                            </div>
+                            <div class="bg-red-100 p-3 rounded-full">
+                                <i class="fas fa-times-circle text-red-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submissions Table -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr id="submission-${submission.id}">
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        ID</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        First Name</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Last Name</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Email</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Phone</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Message</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Submitted On</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="submissionsTable">
+                                <!-- Data will be loaded here via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Update Modal -->
+                    <div id="submissionModal"
+                        class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden flex items-center justify-center">
+                        <div class="bg-white p-6 rounded-lg w-full max-w-2xl">
+                            <h2 class="text-xl font-semibold mb-4">Update Submission</h2>
+                            <input type="hidden" id="modalEntryId">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm">First Name</label>
+                                    <input type="text" id="modalFirstName"
+                                        class="w-full border border-gray-300 rounded px-3 py-2">
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Last Name</label>
+                                    <input type="text" id="modalLastName"
+                                        class="w-full border border-gray-300 rounded px-3 py-2">
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Email</label>
+                                    <input type="email" id="modalEmail"
+                                        class="w-full border border-gray-300 rounded px-3 py-2">
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Phone</label>
+                                    <input type="text" id="modalPhone"
+                                        class="w-full border border-gray-300 rounded px-3 py-2">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm">Message</label>
+                                    <textarea id="modalMessage" rows="3"
+                                        class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm">Status</label>
+                                    <select id="modalStatus" class="w-full border border-gray-300 rounded px-3 py-2">
+                                        <option value="pending">Pending</option>
+                                        <option value="approved">Approved</option>
+                                        <option value="rejected">Rejected</option>
+                                        <option value="processing">Processing</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end space-x-3">
+                                <button onclick="document.getElementById('submissionModal').classList.add('hidden')"
+                                    class="bg-gray-200 px-4 py-2 rounded">Cancel</button>
+                                <button onclick="saveSubmissionChanges()"
+                                    class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Save
+                                    Changes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                        <div class="flex-1 flex justify-between sm:hidden">
+                            <a href="#"
+                                class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Previous </a>
+                            <a href="#"
+                                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Next </a>
+                        </div>
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of
+                                    <span class="font-medium">124</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                                    aria-label="Pagination">
+                                    <a href="#"
+                                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Previous</span>
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                    <a href="#" aria-current="page"
+                                        class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        1 </a>
+                                    <a href="#"
+                                        class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        2 </a>
+                                    <a href="#"
+                                        class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        3 </a>
+                                    <a href="#"
+                                        class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Next</span>
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- Submission Details Modal -->
+
+    <!-- Add this in the head section, before your existing scripts -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://lnomiodycckfgqgawipq.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxub21pb2R5Y2NrZmdxZ2F3aXBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NzAyNzksImV4cCI6MjA2ODA0NjI3OX0.aE48nMBamaAwX00omUrGrzBAlPLY2UVBwZkJTDZ27oM'
+        const client = supabase.createClient(supabaseUrl, supabaseKey)
+
+        // Subscribe to realtime changes
+        const subscription = client
+            .channel('entries')
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'entries'
+            }, payload => {
+                switch (payload.eventType) {
+                    case 'INSERT':
+                        addNewSubmission(payload.new)
+                        break
+                    case 'UPDATE':
+                        updateSubmission(payload.new)
+                        break
+                    case 'DELETE':
+                        removeSubmission(payload.old.id)
+                        break
+                }
+            })
+            .subscribe()
+
+        function createSubmissionRow(submission) {
+            const row = document.createElement('tr')
+            row.id = `submission-${submission.id}`
+
+            const statusClass = {
+                pending: 'status-pending',
+                approved: 'status-approved',
+                rejected: 'status-rejected',
+                processing: 'status-processing'
+            }[submission.status] || 'bg-gray-100 text-gray-700'
+
+            row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${submission.order_id}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${submission.firstName || ''}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${submission.lastName || ''}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${submission.email || ''}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${submission.phone || ''}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${submission.message || ''}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${new Date(submission.created_at).toLocaleString()}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                    ${submission.status || 'pending'}
+                </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
+                <button onclick="openSubmissionModal(${submission.id})" class="text-blue-600 hover:text-blue-900 text-sm">
+                    <i class="fas fa-edit"></i> Update
+                </button>
+
+                <button onclick="deleteSubmission(${submission.id})" class="text-red-600 hover:text-red-900 text-sm">
+  <i class="fas fa-trash"></i> Delete
+</button>
+            </td>
+        `
+            return row
+        }
+
+        function addNewSubmission(submission) {
+            const table = document.getElementById('submissionsTable')
+            const row = createSubmissionRow(submission)
+            table.insertBefore(row, table.firstChild)
+            updateStats()
+        }
+
+        function updateSubmission(submission) {
+            const row = document.getElementById(`submission-${submission.id}`)
+            if (row) {
+                const newRow = createSubmissionRow(submission)
+                row.replaceWith(newRow)
+                updateStats()
+            }
+        }
+
+        function removeSubmission(id) {
+            const row = document.getElementById(`submission-${id}`)
+            if (row) {
+                row.remove()
+                updateStats()
+            }
+        }
+
+        async function updateStats() {
+            const { data, error } = await client.from('entries').select('*')
+            if (!error && data) {
+                const stats = {
+                    total: data.length,
+                    pending: data.filter(s => s.status === 'pending').length,
+                    approved: data.filter(s => s.status === 'approved').length,
+                    rejected: data.filter(s => s.status === 'rejected').length
+                }
+
+                document.querySelector('[data-stat="total"]').textContent = stats.total
+                document.querySelector('[data-stat="pending"]').textContent = stats.pending
+                document.querySelector('[data-stat="approved"]').textContent = stats.approved
+                document.querySelector('[data-stat="rejected"]').textContent = stats.rejected
+            }
+        }
+
+        async function loadInitialData() {
+            const { data, error } = await client
+                .from('entries')
+                .select('*')
+                .order('created_at', { ascending: false })
+
+            if (error) {
+                console.error('Error loading submissions:', error)
+                return
+            }
+
+            const table = document.getElementById('submissionsTable')
+            table.innerHTML = ''
+            data.forEach(submission => {
+                table.appendChild(createSubmissionRow(submission))
+            })
+            updateStats()
+        }
+
+        async function openSubmissionModal(id) {
+            const { data, error } = await client.from('entries').select('*').eq('id', id).single()
+            if (error) return alert('Failed to load data')
+
+            document.getElementById('modalEntryId').value = data.id
+            document.getElementById('modalFirstName').value = data.firstName || ''
+            document.getElementById('modalLastName').value = data.lastName || ''
+            document.getElementById('modalEmail').value = data.email || ''
+            document.getElementById('modalPhone').value = data.phone || ''
+            document.getElementById('modalMessage').value = data.message || ''
+            document.getElementById('modalStatus').value = data.status || ''
+
+            document.getElementById('submissionModal').classList.remove('hidden')
+        }
+
+        async function saveSubmissionChanges() {
+            const id = document.getElementById('modalEntryId').value
+
+            const updated = {
+                firstName: document.getElementById('modalFirstName').value,
+                lastName: document.getElementById('modalLastName').value,
+                email: document.getElementById('modalEmail').value,
+                phone: document.getElementById('modalPhone').value,
+                message: document.getElementById('modalMessage').value,
+                status: document.getElementById('modalStatus').value
+            }
+
+            const { error } = await client.from('entries').update(updated).eq('id', id)
+
+            if (error) {
+                console.error("Update failed:", error)
+                alert('Update failed: ' + error.message)
+                return
+            }
+
+            document.getElementById('submissionModal').classList.add('hidden')
+            loadInitialData()
+        }
+
+        async function deleteSubmission(id) {
+            const confirmDelete = confirm('Are you sure you want to delete this submission?')
+
+            if (!confirmDelete) return
+
+            const { error } = await client
+                .from('entries')
+                .delete()
+                .eq('id', id)
+
+            if (error) {
+                console.error('Delete failed:', error)
+                alert('Delete failed: ' + error.message)
+                return
+            }
+
+            // Remove from DOM
+            const row = document.getElementById(`submission-${id}`)
+            if (row) row.remove()
+
+            alert('Submission deleted successfully')
+            updateStats()
+        }
+
+
+
+
+        document.querySelectorAll('.closeModal').forEach(btn =>
+            btn.addEventListener('click', () =>
+                document.getElementById('submissionModal').classList.add('hidden')
+            )
+        )
+
+
+
+        document.getElementById('searchById').addEventListener('input', function (e) {
+            const searchValue = e.target.value.trim().toLowerCase()
+            const rows = document.querySelectorAll('#submissionsTable tr')
+
+            rows.forEach(row => {
+                const idCell = row.querySelector('td')
+                const idText = idCell ? idCell.textContent.trim().toLowerCase() : ''
+
+                if (idText.includes(searchValue)) {
+                    row.style.display = ''
+                } else {
+                    row.style.display = 'none'
+                }
+            })
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+        document.addEventListener('DOMContentLoaded', loadInitialData)
+    </script>
+
+</body>
+
+</html>

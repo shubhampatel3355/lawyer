@@ -1,0 +1,126 @@
+[
+
+    
+
+  {
+    "id": "NDA",
+    "slug": "non-disclosure-agreement",
+    "title": "Non-Disclosure Agreement (NDA)",
+    "category": "Startups / Small Businesses",
+    "description": "A Non-Disclosure Agreement helps protect your confidential business information—like startup ideas, financial models, prototypes, internal processes or customer data—by making it legally binding for the other party to keep things private. If you're worried about someone copying your idea or leaking your plans, this is your first line of defence.",
+    "whenToUse1": "When should you use this ?",
+    "whenToUse11": "It is ideally used before entering any sensitive conversation like pitching to investors, hiring consultants, partnering with vendors, or discussing a joint venture. If you’re sharing insights or proprietary information, always use an NDA",
+    "whenToUse2": "A well drafted, NDA is not optional its essential, here’s why",
+    "whenToUse21": "Prevents idea theft and unauthorized sharing.",
+    "whenToUse22": "Signals professionalism and seriousness.",
+    "whenToUse23": "Acts as a protective wall in case of leaks even unintentional.",
+    "whenToUse24": "Provides legal recourse (e.g., injunctions or financial damages) in case of breach.",
+    "whyEssential": "Prevents leaks, signals professionalism, and gives you legal recourse if breached.",
+    "keyTerms1": "Confidential Information",
+    "keyTerms11": "What’s covered under secrecy.",
+    "keyTerms2": "Obligations",
+    "keyTerms22": "Responsibilities of the other party.",
+    "keyTerms3": "Exclusions",
+    "keyTerms33": "What doesn't qualify as confidential.",
+    "keyTerms4": "Duration",
+    "keyTerms44": "Length of the confidentiality obligation.",
+    "keyTerms5": "Remedies",
+    "keyTerms55": "Legal steps if confidentiality is broken.",
+    "deliverables_title": "Deliverables",
+    "deliverables1": "Custom Share Subscription Agreement",
+    "deliverables2": "Covers pricing, conditions, and dilution protections",
+    "deliverables3": "Consultation with experienced legal counsel",
+    "deliverables4": "First draft within 3–5 days",
+    "deliverables5": "Two free post-draft iterations",
+    "priceInternal": "Rs. 1500",
+    "payment": "Pay &nbsp;\u20B9 999"
+  },
+  {
+    "slug": "co-founder-agreement",
+    "title": "Co-Founder Agreement",
+    "category": "Startups / Small Businesses",
+    "description": "Outlines equity, responsibilities, and exit terms between co-founders.",
+    "whenToUse": "When founding a startup with a partner.",
+    "whyEssential": "Prevents future disputes over ownership, IP, and control.",
+    "keyTerms": [
+      "Equity Split",
+      "Roles",
+      "IP Assignment",
+      "Exit Provisions",
+      "Decision-Making"
+    ],
+    "deliverables": [
+      "Customized Draft",
+      "Consultation",
+      "2 Revisions"
+    ],
+    "timeline": "48\u201372 Hours",
+    "priceInternal": "Rs. 5000",
+    "priceListed": "Rs. 7500"
+  },
+  {
+    "slug": "safe-agreement",
+    "title": "SAFE Agreement",
+    "category": "Startups / Small Businesses",
+    "description": "A tool for early-stage fundraising, giving equity in future rounds instead of debt.",
+    "whenToUse": "When raising pre-seed or bridge round funding.",
+    "whyEssential": "Avoids valuation disputes, simplifies fundraising, and protects both founder and investor.",
+    "keyTerms": [
+      "Valuation Cap",
+      "Triggering Events",
+      "Dispute Resolution"
+    ],
+    "deliverables": [
+      "Customized SAFE Agreement",
+      "Consultation"
+    ],
+    "timeline": "24\u201348 Hours",
+    "priceInternal": "Rs. 5000",
+    "priceListed": "Rs. 4999"
+  },
+  {
+    "slug": "startup-employment-agreement",
+    "title": "Startup Employment Agreement (with Vesting)",
+    "category": "Startups / Small Businesses",
+    "description": "Legally binds startup hires with IP transfer, confidentiality, and vesting of equity.",
+    "whenToUse": "When hiring employees and offering ESOPs or equity.",
+    "whyEssential": "Protects IP, clarifies roles, and prevents equity misuse.",
+    "keyTerms": [
+      "Roles",
+      "Vesting",
+      "IP Assignment",
+      "Confidentiality",
+      "Termination"
+    ],
+    "deliverables": [
+      "Employment Agreement",
+      "Consultation",
+      "2 Revisions"
+    ],
+    "timeline": "24\u201348 Hours",
+    "priceInternal": "Rs. 12,500",
+    "priceListed": "Rs. 9999"
+  },
+  {
+    "slug": "equity-vesting-agreement",
+    "title": "Equity Vesting Agreement (EVA)",
+    "category": "Startups / Small Businesses",
+    "description": "Controls how equity is earned over time by founders, employees, or advisors.",
+    "whenToUse": "When granting equity for long-term contributions.",
+    "whyEssential": "Prevents people from walking away with full equity without contributing.",
+    "keyTerms": [
+      "Vesting Schedule",
+      "Cliff",
+      "Acceleration",
+      "Buy-back",
+      "Forfeiture"
+    ],
+    "deliverables": [
+      "EVA Document",
+      "Consultation"
+    ],
+    "timeline": "24\u201348 Hours",
+    "priceInternal": "Rs. 12,500",
+    "priceListed": "Rs. 9999"
+  }
+]
