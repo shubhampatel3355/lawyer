@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Lawgis - Law Firm and Attorney HTML Template" />
+
+        <!-- Title & Favicon -->
+        <!-- <title>Legaleze – Trusted Legal Document Platform in India</title> -->
+        <link rel="shortcut icon" href="assets/img/core-img/White_logo.svg" type="image/x-icon" />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@200..800&display=swap"
+            rel="stylesheet" />
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="assets/css/animate.css" />
+        <link rel="stylesheet" href="assets/css/tabler-icons.min.css" />
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="style.css" />
+
+    </head>
+
+<body class="theme-two">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="spinner-grow" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+
+    <div id="doc-header">
+        <!-- Dynamic content loads here -->
+    </div>
+    <div id="doc-container" style="margin-top: 10%;">
+        <!-- Dynamic content loads here -->
+    </div>
+    <div id="doc-footer">
+        <!-- Dynamic content loads here -->
+    </div>
+
+    <!-- Footer -->
+
+
+
+
+
+    <!-- Scroll To Top -->
+    <button id="scrollTopButton" class="lawgis-scrolltop scrolltop-hide">
+        <i class="ti ti-arrow-up"></i>
+    </button>
+
+    <!-- Magnet Cursor -->
+    <div class="magnet">
+        <div class="magnet-cursor"></div>
+        <div class="magnet-circle"></div>
+    </div>
+
+    <!-- All JavaScript Files-->
+    <script src="assets/js/Header.js"></script>
+    <script src="assets/js/Footer.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/slideToggle.min.js"></script>
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/jarallax.min.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/marquee3k.min.js"></script>
+    <script src="assets/js/cookiealert.js"></script>
+    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/magnet-cursor.js"></script>
+    <script src="assets/js/active.js"></script>
+    <script src="assets/js/sidebar_dropdown.js"></script>
+
+    <script>
+        function setupDropdownButtons() {
+            document.querySelectorAll('.dropdown-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const content = this.nextElementSibling;
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+
+    <script src="/assets/js/nda.js"></script>
+    <!-- Add these before the closing body tag -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+    <script src="assets/js/form-handler.js"></script>
+</body>
+
+</html>

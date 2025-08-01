@@ -1,455 +1,490 @@
-async function loadDocumentPage() {
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("doc");
 
-    try {
-        const response = await fetch("data/Legal-docs.json"); 
+async function loadDocumentPage() {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("doc");
+
+  try {
+    const response = await fetch("data/Legal-docs.json");
+    const documents = await response.json();
+
+    const doc = documents.find((d) => d.slug === slug);
+
+    if (!doc) {
+      document.getElementById(
+        "doc-container"
+      ).innerHTML = `<p class="not-found">⚠️ Document not found.</p>`;
+      return;
+    }
+
+    document.title = `Laweze | ${doc.title}`;
+
+    // Your existing template code here...
+    async function loadDocumentPage() {
+      const params = new URLSearchParams(window.location.search);
+      const doc = params.get("doc");
+
+
+      try {
+        const response = await fetch("data/Legal-docs.json");
         const documents = await response.json();
 
         const doc = documents.find((d) => d.slug === slug);
 
         if (!doc) {
-            document.getElementById(
-                "doc-container"
-            ).innerHTML = `<p class="not-found">⚠️ Document not found.</p>`;
-            return;
+          document.getElementById(
+            "doc-container"
+          ).innerHTML = `<p class="not-found">⚠️ Document not found.</p>`;
+          return;
         }
 
         document.title = `Laweze | ${doc.title}`;
 
+        // Your existing template code here...
         document.getElementById("doc-container").innerHTML = `
-                    <div class="breadcrumb-section bg-img jarallax" data-jarallax="" data-speed="0.6"
-                        style="background-image: url('assets/img/bg-img/73.jpg');">
-                        <div class="divider"></div>
-                        <div class="container">
-                            <div class="breadcrumb-content">
-                                <h2 class="wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="700ms">${doc.title}
-                                </h2>
-                                <h2 class="wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="700ms"></h2>
-                                <ul class="list-unstyled wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="1000ms">
-                                    <li><a class="magnet-link" href="index.html">Home</a></li>
-                                    <li><a class="magnet-link" href="service.html">Products</a></li>
-                                    <li>${doc.title}</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="divider"></div>
-                    </div>
-                
-                    
-                    <div class="service-details-section bg-white">
-                        <div class="divider"></div>
-                
-                        <div class="container">
-                            <div class="row g-5">
-                                
-                                <div class="col-12 col-lg-8">
-                                    <div class="service-details-content">
-                                        
-                                        <div class="h2">${doc.title}</div>
-                                        <p>${doc.description}</p>
-                
-                                        <div class="faq-page-section bg-white">
-                                            
-                                            <div class="container">
-                                                <div class="row ">
-                                                    <div class="col-12 col-lg-10">
-                                                        <div class="faq-accordion service-details-faq">
-                                                            <div class="accordion" id="faqAccordion">
-                                                                <div class="accordion-item">
-                                                                    <div class="accordion-header">
-                                                                        <button class="accordion-button" type="button"
-                                                                            data-bs-toggle="collapse" data-bs-target="#faqQuestion1"
-                                                                            aria-expanded="true" aria-controls="faqQuestion1">
-                                                                            ${doc.whenToUse1}
-                                                                        </button>
-                                                                    </div>
-                                                                    <div id="faqQuestion1" class="accordion-collapse collapse show"
-                                                                        data-bs-parent="#faqAccordion">
-                                                                        <div class="accordion-body">
-                                                                            ${doc.whenToUse11}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                
-                                                                
-                                                                <div class="accordion-item">
-                                                                    <div class="accordion-header">
-                                                                        <button class="accordion-button collapsed" type="button"
-                                                                            data-bs-toggle="collapse" data-bs-target="#faqQuestion2"
-                                                                            aria-expanded="false" aria-controls="faqQuestion2">
-                                                                            ${doc.whenToUse2}
-                                                                        </button>
-                                                                    </div>
-                                                                    <div id="faqQuestion2" class="accordion-collapse collapse"
-                                                                        data-bs-parent="#faqAccordion">
-                                                                        <div class="accordion-body">
-                                                                            <ol class="legal-list">
-                                                                                <li>${doc.whenToUse21}</li>
-                                                                                <li>${doc.whenToUse22}</li>
-                                                                                <li>${doc.whenToUse23}
-                                                                                </li>
-                                                                                <li>${doc.whenToUse24}</li>
-                                                                            </ol>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                
-                
-                                        <div class="my-4">
-                                            <div class="row g-4 align-items-center">
-                                                <div class="col-12 col-sm-6">
-                                                    <img src="assets/img/lawyer111.webp" alt="">
-                                                </div>
-                
-                                                <div class="col-12 col-sm-6">
-                                                    <div class="d-flex flex-column gap-4 ps-4">
-                                                        <div class="d-flex flex-column gap-2">
-                                                            <div class="h4">${doc.keyTerms1}</div>
-                                                            <p>${doc.keyTerms11}
-                                                            </p>
-                                                        </div>
-                
-                                                        <div class="d-flex flex-column gap-2">
-                                                            <div class="h4">${doc.keyTerms2}</div>
-                                                            <p>${doc.keyTerms22}
-                                                            </p>
-                                                        </div>
-                
-                                                        <div class="d-flex flex-column gap-2">
-                                                            <div class="h4">${doc.keyTerms3}</div>
-                                                            <p>${doc.keyTerms33}
-                                                            </p>
-                                                        </div>
-                                                        <div class="d-flex flex-column gap-2">
-                                                            <div class="h4">${doc.keyTerms4}</div>
-                                                            <p>${doc.keyTerms44}
-                                                            </p>
-                                                        </div>
-                                                        <div class="d-flex flex-column gap-2">
-                                                            <div class="h4">${doc.keyTerms5}</div>
-                                                            <p>${doc.keyTerms55}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                
-                                        <div class="h2">${doc.deliverables_title} </div>
-                                        <ol class="legal-list">
-                                            <li style="font-size: 20px;">${doc.deliverables1}</li>
-                                            <li style="font-size: 20px;">${doc.deliverables2}</li>
-                                            <li style="font-size: 20px;">${doc.deliverables3}</li>
-                                            <li style="font-size: 20px;">${doc.deliverables4}</li>
-                                            <li style="font-size: 20px;">${doc.deliverables5}</li>
-                                        </ol>
-                
-                                        <div class="h2">Start Your Legal Draft</div>
-                                <form class="service-form" id="contact-form">
-                                 <div class="row g-4">
-                                    <div class="col-12 col-lg-4">
-                                       <input id="fname" type="text" name="firstName" class="form-control" placeholder="Your First Name">
-                                    </div>
-                                    <div class="col-12 col-lg-4">
-                                       <input id="mname" type="text" name="middleName" class="form-control" placeholder="Your Middle Name">
-                                    </div>
-                                    <div class="col-12 col-lg-4">
-                                       <input id="lname" type="text" name="lastName" class="form-control" placeholder="Your Last Name">
-                                    </div>
-            
-                                    <div class="col-12 col-lg-6">
-                                       <input id="emails" type="email" name="email" class="form-control" placeholder="Email Address">
-                                    </div>
-            
-                                    <div class="col-12 col-lg-6">
-                                       <input id="nums" type="text" name="phone" class="form-control" placeholder="Phone Number">
-                                    </div>
-            
+    <div class="breadcrumb-section bg-img jarallax" data-jarallax="" data-speed="0.6"
+        style="background-image: url('assets/img/bg-img/73.jpg');">
+        <div class="divider"></div>
+        <div class="container">
+            <div class="breadcrumb-content">
+                <h2 class="wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="700ms">${doc.title}
+                </h2>
+                <h2 class="wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="700ms"></h2>
+                <ul class="list-unstyled wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="1000ms">
+                    <li><a class="magnet-link" href="index.html">Home</a></li>
+                    <li>${doc.title}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="divider"></div>
+    </div>
 
-            
-                                    <div class="col-12">
-                                       <textarea id="msg" name="message" class="form-control" placeholder="Message" id="message"></textarea>
-                                    </div>
-            
-                                    <div class="col-12">
-                                       <button class="btn btn-primary" type="submit">
-                                          <span>${doc.payment} <i class="ti ti-arrow-up-right"></i></span>
-                                          <span>Payment <i class="ti ti-arrow-up-right"></i></span>
-                                       </button>
-                                    </div>
-                                 </div>
-                              </form>
-                                    </div>
-                                </div>
-                
-                                <div class="col-12 col-lg-4">
-                                    <div class="d-flex flex-column gap-5">
-                                
-                                        <div class="service-widget">
-                                            <div class="h4 fw-semibold mb-4">Services</div>
-                
-                                            <ul class="service-list">
-                
-                                              
-                                                <li>
-                                                    <button class="dropdown-btn">StartUps / Small Business <i
-                                                            class="ti ti-arrow-down"></i></button>
-                                                    <ul class="dropdown-content">
-                                                        <li><a class="magnet-link" href="NDA.html">Non-Disclosure Agreement (NDA)</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Founder's_Agreement.html">Founders' Agreement /
-                                                                Co-founder
-                                                                Agreement </a></li>
-                                                        <li><a class="magnet-link" href="Startup_Employment.html">Startup Employment
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Equity_Vesting.html">Equity Vesting
-                                                                Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Angel_Investment.html">Angel Investment
-                                                                Agreement /
-                                                                Convertible
-                                                                Note</a></li>
-                                                        <li><a class="magnet-link" href="SAFE.html">SAFE Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Share_Subscription.html">Share Subscription
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Shareholders.html">Shareholders Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Consultancy.html">Consultancy Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Vendor.html">Vendor / Supplier Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="SLA.html">Service Level Agreement (SLA)</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                
-                                        
-                                                <li>
-                                                    <button class="dropdown-btn">Creatives & Freelancers <i
-                                                            class="ti ti-arrow-down"></i></button>
-                                                    <ul class="dropdown-content">
-                                                        <li><a class="magnet-link" href="Freelance_Services.html">Freelance Services
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Work_for_Hire.html">Work-for-Hire Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Content_Creation.html">Content Creation
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="influencer.html">Influencer Collaboration
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Photography.html">Photography / Videography
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Commissioned_Art.html">Commissioned Artwork
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Royalty.html">Royalty / Licensing Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Design_&_Logo.html">Design & Logo Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Performance.html">Performance Contracts</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Portfolio_Usage.html">Portfolio Usage Consent
-                                                                Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Music_Licensing.html">Music Licensing
-                                                                Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Creative_Retainer.html">Creative Retainer
-                                                                Agreement</a>
-                                                        </li>
-                                                    </ul>
-                
-                                                </li>
-                
-                                               
-                                                <li>
-                                                    <button class="dropdown-btn">General Business Contracts <i
-                                                            class="ti ti-arrow-down"></i></button>
-                                                    <ul class="dropdown-content">
-                                                        <li><a class="magnet-link" href="Sales.html">Sales / Purchase Agreement </a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Joint_Venture.html">Joint Venture Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Master_Service.html">Master Service Agreement
-                                                                (MSA)</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Service_Level.html">Service Level Agreement
-                                                                (SLA)</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Distribution.html">Distribution Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Franchise.html">Franchise Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Marketing.html">Marketing / Agency Agreement
-                                                            </a></li>
-                                                        <li><a class="magnet-link" href="Loan_Agreement.html">Loan Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Promissory_Note.html">Promissory Note</a></li>
-                                                        <li><a class="magnet-link" href="Commission_Based.html">Commission-Based
-                                                                Referral
-                                                                Agreement </a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Business_Purchase.html">Business Purchase /
-                                                                Transfer
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="MOU.html">MOU (Memorandum of Understanding)
-                                                            </a></li>
-                                                    </ul>
-                
-                                                </li>
-                
-                                                
-                                                <li>
-                                                    <button class="dropdown-btn">Employment & HR <i
-                                                            class="ti ti-arrow-down"></i></button>
-                                                    <ul class="dropdown-content">
-                                                        <li><a class="magnet-link" href="Employment_Agreement.html">Employment
-                                                                Agreement</a></li>
-                                                        <li><a class="magnet-link" href="POSH_Policy.html">POSH Policy</a></li>
-                                                        <li><a class="magnet-link" href="Employee_Handbook.html">Employee Handbook</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Internship.html">Internship Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Non_Compete.html">Non-Compete Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Non_Solicitation.html">Non-Solicitation
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Offer_Letter.html">Offer Letter with Employment
-                                                                Terms
-                                                            </a></li>
-                                                        <li><a class="magnet-link" href="Contractor_Agreement.html">Contractor Agreement
-                                                                (domestic
-                                                                +
-                                                                international) </a></li>
-                                                        <li><a class="magnet-link" href="Termination.html">Termination Letter with
-                                                                Release Clause
-                                                            </a></li>
-                                                        <li><a class="magnet-link" href="Remote_Work.html">Remote Work Agreement</a>
-                                                        </li>
-                                                    </ul>
-                
-                                                </li>
-                
-                                                
-                                                <li>
-                                                    <button class="dropdown-btn">Property & Real Estate <i
-                                                            class="ti ti-arrow-down"></i></button>
-                                                    <ul class="dropdown-content">
-                                                        <li><a class="magnet-link" href="Residential_Lease.html">Resedential Lease
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Commercial_Lease.html">Commercial Lease</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Leave_and_License.html"> Leave and License
-                                                                Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="Property_Sale.html">Property Sale Agreement</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="POA.html">Power of Attorney (POA)</a></li>
-                                                        <li><a class="magnet-link" href="Brokerage_Agreement.html">Brokerage
-                                                                Agreement</a></li>
-                                                    </ul>
-                
-                                                </li>
-                
-                                               
-                                                <li>
-                                                    <button class="dropdown-btn">Digital & Tech <i
-                                                            class="ti ti-arrow-down"></i></button>
-                                                    <ul class="dropdown-content">
-                                                        <li><a class="magnet-link" href="Website_Terms.html">Website Terms &
-                                                                Conditions</a></li>
-                                                        <li><a class="magnet-link" href="Privacy_Policy.html">Privacy Policy (Indian
-                                                                DPDPA + GDPR
-                                                                hybrid)
-                                                            </a></li>
-                                                        <li><a class="magnet-link" href="Software_Development.html">Software Development
-                                                                Agreement</a></li>
-                                                        <li><a class="magnet-link" href="Website_Development.html">Website Development
-                                                                Agreement</a></li>
-                                                        <li><a class="magnet-link" href="DPA.html">Data Processing Agreement (DPA)</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="SaaS_Agreement.html">SaaS Agreement
-                                                                (Subscription /
-                                                                Licensing)</a>
-                                                        </li>
-                                                        <li><a class="magnet-link" href="App_Development.html">App Development &
-                                                                Maintenance
-                                                                Contract</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                               
-                                         
-                
-                                            </ul>
-                
-                                        </div>
-                
-                
-                                     
-                                        <div class="helpline-card bg-img" style="background-image: url('assets/img/bg-img/75.jpg')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"
-                                                fill="none">
-                                                <g clip-path="url(#clip0_1_4723)">
-                                                    <path
-                                                        d="M20.1611 44.1242C19.9286 43.8917 19.6061 43.7578 19.2773 43.7578C18.9486 43.7578 18.6261 43.8916 18.3936 44.1242C18.1611 44.3566 18.0273 44.6791 18.0273 45.0078C18.0273 45.3367 18.1611 45.6592 18.3936 45.8916C18.6261 46.1241 18.9486 46.2578 19.2773 46.2578C19.6061 46.2578 19.9286 46.1242 20.1611 45.8916C20.3936 45.6592 20.5273 45.3367 20.5273 45.0078C20.5273 44.6791 20.3936 44.3566 20.1611 44.1242Z"
-                                                        fill="white" />
-                                                    <path
-                                                        d="M61.9028 45.5068L52.8659 36.4699C51.5171 35.1212 49.724 34.3784 47.8165 34.3784C45.909 34.3784 44.116 35.1212 42.7673 36.4699L39.6159 39.6212L39.6155 39.6216L39.6151 39.6219L38.3563 40.8807L23.1059 25.6303L27.5168 21.2196C30.3009 18.4353 30.3009 13.9051 27.5168 11.1208L18.4876 2.09181C15.7035 -0.692062 11.1733 -0.692062 8.389 2.09181L6.00738 4.47331C-1.99725 12.4781 -1.99725 25.5027 6.00738 33.5074L14.7889 42.2889C15.277 42.7769 16.0685 42.7769 16.5567 42.2889C17.0449 41.8008 17.0449 41.0093 16.5567 40.5211L7.77525 31.7396C1.30575 25.2702 0.790375 15.0671 6.2285 8.00219L15.7211 17.4949C15.9653 17.7389 16.2851 17.8611 16.605 17.8611C16.9249 17.8611 17.2449 17.7389 17.4889 17.4949C17.977 17.0068 17.9771 16.2153 17.4889 15.7271L7.88912 6.12719L10.1567 3.85956C11.9662 2.05031 14.9104 2.05006 16.7199 3.85956L25.7489 12.8886C27.5584 14.6981 27.5584 17.6422 25.7489 19.4517L20.4541 24.7463C20.2197 24.9808 20.088 25.2987 20.088 25.6302C20.088 25.9617 20.2197 26.2796 20.4541 26.5141L37.4724 43.5323C37.9606 44.0206 38.7521 44.0204 39.2401 43.5323L40.4994 42.2732L55.9931 57.7669C52.8568 60.1879 49.0315 61.5003 45.0041 61.5003C40.1881 61.5003 35.6604 59.6248 32.2549 56.2193L23.3484 47.3128C22.8604 46.8248 22.0687 46.8248 21.5806 47.3128C21.0925 47.8009 21.0925 48.5924 21.5806 49.0807L30.4871 57.9872C34.3647 61.8648 39.5204 64.0003 45.0041 64.0003C50.488 64.0003 55.6436 61.8648 59.5213 57.9872L61.9028 55.6056C63.2515 54.2569 63.9943 52.4637 63.9943 50.5562C63.9943 48.6488 63.2515 46.8557 61.9028 45.5068ZM60.135 53.8377L57.8673 56.1054L42.2673 40.5054L44.535 38.2377C45.4115 37.3611 46.5769 36.8783 47.8165 36.8783C49.0561 36.8783 50.2215 37.3611 51.098 38.2377L60.1349 47.2747C61.0115 48.1512 61.4943 49.3167 61.4943 50.5562C61.4943 51.7958 61.0116 52.9613 60.135 53.8377Z"
-                                                        fill="white" />
-                                                    <path
-                                                        d="M20.5244 18.7608C20.2919 18.527 19.9694 18.3945 19.6406 18.3945C19.3119 18.3945 18.9894 18.527 18.7569 18.7608C18.5244 18.9933 18.3906 19.3147 18.3906 19.6445C18.3906 19.9733 18.5244 20.2958 18.7569 20.5283C18.9894 20.7608 19.3119 20.8945 19.6406 20.8945C19.9694 20.8945 20.2919 20.7608 20.5244 20.5283C20.7569 20.2958 20.8906 19.9733 20.8906 19.6445C20.8906 19.3158 20.7569 18.9933 20.5244 18.7608Z"
-                                                        fill="white" />
-                                                    <path
-                                                        d="M52.6942 9.02934C52.5467 6.88584 50.819 5.15821 48.6756 5.01046C47.4599 4.92784 46.3017 5.33671 45.4142 6.16521C44.5391 6.98209 44.0371 8.13696 44.0371 9.33396C44.0371 10.0242 44.5967 10.584 45.2871 10.584C45.9775 10.584 46.5371 10.0242 46.5371 9.33396C46.5371 8.82009 46.7441 8.34371 47.1201 7.99284C47.4955 7.64234 47.9862 7.46946 48.5037 7.50471C49.4086 7.56696 50.138 8.29646 50.2002 9.20134C50.2634 10.1162 49.6636 10.9247 48.7745 11.1237C47.8009 11.3412 47.1209 12.1877 47.1209 13.1818V15.4333C47.1209 16.1236 47.6805 16.6833 48.3709 16.6833C49.0612 16.6833 49.6209 16.1236 49.6209 15.4333V13.485C51.5576 12.9072 52.8357 11.0813 52.6942 9.02934Z"
-                                                        fill="white" />
-                                                    <path
-                                                        d="M49.2548 18.9978C49.0223 18.7653 48.6998 18.6328 48.3711 18.6328C48.0423 18.6328 47.7198 18.7654 47.4873 18.9978C47.2548 19.2316 47.1211 19.5528 47.1211 19.8828C47.1211 20.2116 47.2548 20.5341 47.4873 20.7666C47.7198 20.9991 48.0423 21.1328 48.3711 21.1328C48.6998 21.1328 49.0223 20.9992 49.2548 20.7666C49.4873 20.5339 49.6211 20.2116 49.6211 19.8828C49.6211 19.5528 49.4873 19.2316 49.2548 18.9978Z"
-                                                        fill="white" />
-                                                    <path
-                                                        d="M57.7461 0H38.9961C35.5498 0 32.7461 2.80375 32.7461 6.25V20.4966C32.7461 23.9429 35.5498 26.7466 38.9961 26.7466H43.7367L47.3958 31.5114C47.6325 31.8195 47.9988 32 48.3872 32C48.388 32 48.3887 32 48.3895 32C48.7787 31.9993 49.1453 31.8172 49.3813 31.5077L53.0103 26.7466H57.746C61.1922 26.7466 63.99.9429 63.996 20.4966V6.25C63. 61.1925 0 57.7461 0ZM61.4963 20.4966H61.4961C61.4961 22.5644 59.8138 24.2466 57.7461 24.2466H52.3916C52.0016 24.2466 51.6338 24.4286 51.3975 24.7389L48.3837 28.6929L45.3445 24.7353C45.1078 24.4271 44.7415 24.2466 44.3531 24.2466H38.9963C36.9286 24.2466 35.2463 22.5644 35.2463 20.4966V6.25C35.2463 4.1826.9963 2.5H57.7463C59.8141 2.5 61.4963 4.18225 61.4963 6.25V20.4966Z"
-                                                        fill="white" />
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_1_4723">
-                                                        <rect width="64" height="64" fill="white" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                            <div class="h3 mb-2 mt-5 fw-semibold text-white">How Can We Help?</div>
-                                            <p class="mb-4 text-white">Our legal experts specialize in safeguarding your interests with
-                                                trusted
-                                                and tailored documentation.</p>
-                                            <a href="contact-1.html" class="btn btn-primary">
-                                                <span>Get in Touch <i class="ti ti-arrow-up-right"></i></span>
-                                                <span>Get in Touch <i class="ti ti-arrow-up-right"></i></span>
-                                            </a>
+
+    <div class="service-details-section bg-white">
+        <div class="divider"></div>
+
+        <div class="container">
+            <div class="row g-5">
+
+                <div class="col-12 col-lg-8">
+                    <div class="service-details-content">
+
+                        <div class="h2">${doc.title}</div>
+                        <p>${doc.description}</p>
+
+                        <div class="faq-page-section bg-white">
+
+                            <div class="container">
+                                <div class="row ">
+                                    <div class="col-12 col-lg-10">
+                                        <div class="faq-accordion service-details-faq">
+                                            <div class="accordion" id="faqAccordion">
+                                                <div class="accordion-item">
+                                                    <div class="accordion-header">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#faqQuestion1"
+                                                            aria-expanded="true" aria-controls="faqQuestion1">
+                                                            ${doc.whenToUse1}
+                                                        </button>
+                                                    </div>
+                                                    <div id="faqQuestion1" class="accordion-collapse collapse show"
+                                                        data-bs-parent="#faqAccordion">
+                                                        <div class="accordion-body">
+                                                            ${doc.whenToUse11}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="accordion-item">
+                                                    <div class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#faqQuestion2"
+                                                            aria-expanded="false" aria-controls="faqQuestion2">
+                                                            ${doc.whenToUse2}
+                                                        </button>
+                                                    </div>
+                                                    <div id="faqQuestion2" class="accordion-collapse collapse"
+                                                        data-bs-parent="#faqAccordion">
+                                                        <div class="accordion-body">
+                                                            <ol class="legal-list">
+                                                                <li>${doc.whenToUse21}</li>
+                                                                <li>${doc.whenToUse22}</li>
+                                                                <li>${doc.whenToUse23}
+                                                                </li>
+                                                                <li>${doc.whenToUse24}</li>
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                
-                        <div class="divider"></div>
+
+
+                        <div class="my-4">
+                            <div class="row g-4 align-items-center">
+                                <div class="col-12 col-sm-6">
+                                    <img src="${doc.Image}" />
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="d-flex flex-column gap-4 ps-4">
+                                        <div class="d-flex flex-column gap-2">
+                                            <div class="h4">${doc.keyTerms1}</div>
+                                            <p>${doc.keyTerms11}
+                                            </p>
+                                        </div>
+
+                                        <div class="d-flex flex-column gap-2">
+                                            <div class="h4">${doc.keyTerms2}</div>
+                                            <p>${doc.keyTerms22}
+                                            </p>
+                                        </div>
+
+                                        <div class="d-flex flex-column gap-2">
+                                            <div class="h4">${doc.keyTerms3}</div>
+                                            <p>${doc.keyTerms33}
+                                            </p>
+                                        </div>
+                                        <div class="d-flex flex-column gap-2">
+                                            <div class="h4">${doc.keyTerms4}</div>
+                                            <p>${doc.keyTerms44}
+                                            </p>
+                                        </div>
+                                        <div class="d-flex flex-column gap-2">
+                                            <div class="h4">${doc.keyTerms5}</div>
+                                            <p>${doc.keyTerms55}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="h2">${doc.deliverables_title} </div>
+                        <ol class="legal-list">
+                            <li style="font-size: 20px;">${doc.deliverables1}</li>
+                            <li style="font-size: 20px;">${doc.deliverables2}</li>
+                            <li style="font-size: 20px;">${doc.deliverables3}</li>
+                            <li style="font-size: 20px;">${doc.deliverables4}</li>
+                            <li style="font-size: 20px;">${doc.deliverables5}</li>
+                        </ol>
+
+
+                        <section class="history-wrapper bg-dark mt-5">
+
+
+                            <div class="container">
+                                <div class="lawgis-timeline">
+
+                                    <div class="timeline-event wow fadeInLeft" data-wow-delay="300ms"
+                                        data-wow-duration="1000ms">
+                                        <div class="timeline-year">
+                                            1st
+                                            <img class="timeline-img" src="${doc.Process_img1}" alt="" />
+                                            <div class="timeline-title" style="width: 190px">
+                                                ${doc.Process_1}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="timeline-event wow fadeInLeft" data-wow-delay="500ms"
+                                        data-wow-duration="1000ms">
+                                        <div class="timeline-year">
+                                            2nd
+                                            <img class="timeline-img" src="${doc.Process_img2}" alt="" />
+                                            <div class="timeline-title" style="width: 250px">
+                                                ${doc.Process_2}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="timeline-event wow fadeInLeft" data-wow-delay="700ms"
+                                        data-wow-duration="1000ms">
+                                        <div class="timeline-year">
+                                            3rd
+                                            <img class="timeline-img" src="${doc.Process_img3}" alt="" />
+                                            <div class="timeline-title">${doc.Process_3}</div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                        </section>
+
+                        <div class="h2" id="Form_nav">Start Your Legal Draft</div>
+                                          <form class="service-form" id="contact-form">
+                     <div class="row g-4">
+                        <div class="col-12 col-lg-4">
+                           <input id="fname" type="text" name="firstName" class="form-control" placeholder="Your First Name">
+                        </div>
+                        <div class="col-12 col-lg-4">
+                           <input id="mname" type="text" name="middleName" class="form-control" placeholder="Your Middle Name">
+                        </div>
+                        <div class="col-12 col-lg-4">
+                           <input id="lname" type="text" name="lastName" class="form-control" placeholder="Your Last Name">
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                           <input id="emails" type="email" name="email" class="form-control" placeholder="Email Address">
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                           <input id="nums" type="text" name="phone" class="form-control" placeholder="Phone Number">
+                        </div>
+
+                        <!-- <div class="col-12 col-lg-6">
+                           <input type="text" name="subject" class="form-control" placeholder="Subject">
+                        </div> -->
+
+                        <div class="col-12">
+                           <textarea id="msg" name="message" class="form-control" placeholder="Message" id="message"></textarea>
+                        </div>
+
+                        <div class="col-12">
+                           <button class="btn btn-primary" type="submit">
+                              <span>${doc.payment} <i class="ti ti-arrow-up-right"></i></span>
+                              <span>Payment <i class="ti ti-arrow-up-right"></i></span>
+                           </button>
+                        </div>
+                     </div>
+                  </form>
                     </div>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="d-flex flex-column gap-5">
+
+                        <div class="service-widget">
+                            <div class="h4 fw-semibold mb-4">Services</div>
+
+                            <ul class="service-list">
+
+                                <li>
+                                    <button class="dropdown-btn">StartUps / Small Business <i
+                                            class="ti ti-arrow-down"></i></button>
+                                    <ul class="dropdown-content">
+                                        <li><a class="magnet-link" href=${doc.Link1}>Non-Disclosure Agreement (NDA)</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link2}>Founders' Agreement / Co-founder
+                                                Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link3}>Startup Employment Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link4}>Equity Vesting Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link5}>Angel Investment Agreement /
+                                                Convertible Note</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link6}>SAFE Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link7}>Share Subscription Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link8}>Shareholders Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link9}>Consultancy Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link10}>Vendor / Supplier Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link11}>Service Level Agreement (SLA)</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <button class="dropdown-btn">Creatives & Freelancers <i
+                                            class="ti ti-arrow-down"></i></button>
+                                    <ul class="dropdown-content">
+                                        <li><a class="magnet-link" href=${doc.Link12}>Freelance Services Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link13}>Work-for-Hire Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link14}>Content Creation Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link15}>Influencer Collaboration
+                                                Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link16}>Wedding Photography / Videography
+                                                Contract</a></li>
+                                        
+                                        <li><a class="magnet-link" href=${doc.Link18}>Commissioned Artwork Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link19}>Royalty / Licensing Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link20}>Design & Logo Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link21}>Performance Contracts</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link22}>Portfolio Usage Consent
+                                                Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link23}>Music Licensing Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link24}>Creative Retainer Agreement</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <button class="dropdown-btn">General Business Contracts <i
+                                            class="ti ti-arrow-down"></i></button>
+                                    <ul class="dropdown-content">
+                                        <li><a class="magnet-link" href=${doc.Link25}>Sales / Purchase Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link26}>Joint Venture Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link27}>Master Service Agreement (MSA)</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link28}>Service Level Agreement (SLA)</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link29}>Distribution Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link30}>Franchise Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link31}>Marketing / Agency Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link32}>Loan Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link33}>Promissory Note</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link34}>Commission-Based Referral
+                                                Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link35}>Business Purchase / Transfer
+                                                Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link36}>MOU (Memorandum of
+                                                Understanding)</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <button class="dropdown-btn">Employment & HR <i
+                                            class="ti ti-arrow-down"></i></button>
+                                    <ul class="dropdown-content">
+                                        <li><a class="magnet-link" href=${doc.Link37}>Employment Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link38}>POSH Policy</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link39}>Employee Handbook</a></li>
+                                       
+                                        <li><a class="magnet-link" href=${doc.Link41}>Non-Compete Agreement</a></li>
+
+                                        <li><a class="magnet-link" href=${doc.Link44}>Consultancy Agreement</a></li>
+
+                                        <li><a class="magnet-link" href=${doc.Link46}>Remote Work Agreement</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <button class="dropdown-btn">Property & Real Estate <i
+                                            class="ti ti-arrow-down"></i></button>
+                                    <ul class="dropdown-content">
+                                        <li><a class="magnet-link" href=${doc.Link47}>Residential Lease Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link48}>Commercial Lease Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link49}>Leave and License Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link50}>Property Sale Agreement</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link51}>Sales Deed</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link52}>Brokerage Agreement</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <button class="dropdown-btn">Digital & Tech <i
+                                            class="ti ti-arrow-down"></i></button>
+                                    <ul class="dropdown-content">
+                                        <li><a class="magnet-link" href=${doc.Link53}>Website Terms & Conditions</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link54}>Privacy Policy (Indian DPDPA +
+                                                GDPR)</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link55}>Software Development Agreement</a>
+                                        </li>
+                                        <li><a class="magnet-link" href=${doc.Link56}>Website Development Agreement</a>
+                                        </li>
+
+                                        <li><a class="magnet-link" href=${doc.Link58}>SaaS Agreement (Subscription /
+                                                Licensing)</a></li>
+                                        <li><a class="magnet-link" href=${doc.Link59}>App Development & Maintenance
+                                                Contract</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <div class="helpline-card bg-img" style="background-image: url('assets/img/bg-img/75.jpg')">
+                            <div class="h3 mb-2 mt-5 fw-semibold text-white">${doc.Payment_title} </div>
+                            <p class="mb-4 text-white">${doc.Payment_para} </p>
+                            <a onclick=${doc.Payment_button} class="btn btn-primary">
+                                <span>${doc.payment} <i class="ti ti-arrow-up-right"></i></span>
+                                <span>${doc.payment} <i class="ti ti-arrow-up-right"></i></span>
+                            </a>
+                        </div>
+                        <div class="helpline-card bg-img" style="background-image: url('assets/img/bg-img/75.jpg')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"
+                                fill="none">
+                                <g clip-path="url(#clip0_1_4723)">
+                                    <path
+                                        d="M20.1611 44.1242C19.9286 43.8917 19.6061 43.7578 19.2773 43.7578C18.9486 43.7578 18.6261 43.8916 18.3936 44.1242C18.1611 44.3566 18.0273 44.6791 18.0273 45.0078C18.0273 45.3367 18.1611 45.6592 18.3936 45.8916C18.6261 46.1241 18.9486 46.2578 19.2773 46.2578C19.6061 46.2578 19.9286 46.1242 20.1611 45.8916C20.3936 45.6592 20.5273 45.3367 20.5273 45.0078C20.5273 44.6791 20.3936 44.3566 20.1611 44.1242Z"
+                                        fill="white" />
+                                    <path
+                                        d="M61.9028 45.5068L52.8659 36.4699C51.5171 35.1212 49.724 34.3784 47.8165 34.3784C45.909 34.3784 44.116 35.1212 42.7673 36.4699L39.6159 39.6212L39.6155 39.6216L39.6151 39.6219L38.3563 40.8807L23.1059 25.6303L27.5168 21.2196C30.3009 18.4353 30.3009 13.9051 27.5168 11.1208L18.4876 2.09181C15.7035 -0.692062 11.1733 -0.692062 8.389 2.09181L6.00738 4.47331C-1.99725 12.4781 -1.99725 25.5027 6.00738 33.5074L14.7889 42.2889C15.277 42.7769 16.0685 42.7769 16.5567 42.2889C17.0449 41.8008 17.0449 41.0093 16.5567 40.5211L7.77525 31.7396C1.30575 25.2702 0.790375 15.0671 6.2285 8.00219L15.7211 17.4949C15.9653 17.7389 16.2851 17.8611 16.605 17.8611C16.9249 17.8611 17.2449 17.7389 17.4889 17.4949C17.977 17.0068 17.9771 16.2153 17.4889 15.7271L7.88912 6.12719L10.1567 3.85956C11.9662 2.05031 14.9104 2.05006 16.7199 3.85956L25.7489 12.8886C27.5584 14.6981 27.5584 17.6422 25.7489 19.4517L20.4541 24.7463C20.2197 24.9808 20.088 25.2987 20.088 25.6302C20.088 25.9617 20.2197 26.2796 20.4541 26.5141L37.4724 43.5323C37.9606 44.0206 38.7521 44.0204 39.2401 43.5323L40.4994 42.2732L55.9931 57.7669C52.8568 60.1879 49.0315 61.5003 45.0041 61.5003C40.1881 61.5003 35.6604 59.6248 32.2549 56.2193L23.3484 47.3128C22.8604 46.8248 22.0687 46.8248 21.5806 47.3128C21.0925 47.8009 21.0925 48.5924 21.5806 49.0807L30.4871 57.9872C34.3647 61.8648 39.5204 64.0003 45.0041 64.0003C50.488 64.0003 55.6436 61.8648 59.5213 57.9872L61.9028 55.6056C63.2515 54.2569 63.9943 52.4637 63.9943 50.5562C63.9943 48.6488 63.2515 46.8557 61.9028 45.5068ZM60.135 53.8377L57.8673 56.1054L42.2673 40.5054L44.535 38.2377C45.4115 37.3611 46.5769 36.8783 47.8165 36.8783C49.0561 36.8783 50.2215 37.3611 51.098 38.2377L60.1349 47.2747C61.0115 48.1512 61.4943 49.3167 61.4943 50.5562C61.4943 51.7958 61.0116 52.9613 60.135 53.8377Z"
+                                        fill="white" />
+                                    <path
+                                        d="M20.5244 18.7608C20.2919 18.527 19.9694 18.3945 19.6406 18.3945C19.3119 18.3945 18.9894 18.527 18.7569 18.7608C18.5244 18.9933 18.3906 19.3147 18.3906 19.6445C18.3906 19.9733 18.5244 20.2958 18.7569 20.5283C18.9894 20.7608 19.3119 20.8945 19.6406 20.8945C19.9694 20.8945 20.2919 20.7608 20.5244 20.5283C20.7569 20.2958 20.8906 19.9733 20.8906 19.6445C20.8906 19.3158 20.7569 18.9933 20.5244 18.7608Z"
+                                        fill="white" />
+                                    <path
+                                        d="M52.6942 9.02934C52.5467 6.88584 50.819 5.15821 48.6756 5.01046C47.4599 4.92784 46.3017 5.33671 45.4142 6.16521C44.5391 6.98209 44.0371 8.13696 44.0371 9.33396C44.0371 10.0242 44.5967 10.584 45.2871 10.584C45.9775 10.584 46.5371 10.0242 46.5371 9.33396C46.5371 8.82009 46.7441 8.34371 47.1201 7.99284C47.4955 7.64234 47.9862 7.46946 48.5037 7.50471C49.4086 7.56696 50.138 8.29646 50.2002 9.20134C50.2634 10.1162 49.6636 10.9247 48.7745 11.1237C47.8009 11.3412 47.1209 12.1877 47.1209 13.1818V15.4333C47.1209 16.1236 47.6805 16.6833 48.3709 16.6833C49.0612 16.6833 49.6209 16.1236 49.6209 15.4333V13.485C51.5576 12.9072 52.8357 11.0813 52.6942 9.02934Z"
+                                        fill="white" />
+                                    <path
+                                        d="M49.2548 18.9978C49.0223 18.7653 48.6998 18.6328 48.3711 18.6328C48.0423 18.6328 47.7198 18.7654 47.4873 18.9978C47.2548 19.2316 47.1211 19.5528 47.1211 19.8828C47.1211 20.2116 47.2548 20.5341 47.4873 20.7666C47.7198 20.9991 48.0423 21.1328 48.3711 21.1328C48.6998 21.1328 49.0223 20.9992 49.2548 20.7666C49.4873 20.5339 49.6211 20.2116 49.6211 19.8828C49.6211 19.5528 49.4873 19.2316 49.2548 18.9978Z"
+                                        fill="white" />
+                                    <path
+                                        d="M57.7461 0H38.9961C35.5498 0 32.7461 2.80375 32.7461 6.25V20.4966C32.7461 23.9429 35.5498 26.7466 38.9961 26.7466H43.7367L47.3958 31.5114C47.6325 31.8195 47.9988 32 48.3872 32C48.388 32 48.3887 32 48.3895 32C48.7787 31.9993 49.1453 31.8172 49.3813 31.5077L53.0103 26.7466H57.746C61.1922 26.7466 63.99.9429 63.996 20.4966V6.25C63. 61.1925 0 57.7461 0ZM61.4963 20.4966H61.4961C61.4961 22.5644 59.8138 24.2466 57.7461 24.2466H52.3916C52.0016 24.2466 51.6338 24.4286 51.3975 24.7389L48.3837 28.6929L45.3445 24.7353C45.1078 24.4271 44.7415 24.2466 44.3531 24.2466H38.9963C36.9286 24.2466 35.2463 22.5644 35.2463 20.4966V6.25C35.2463 4.1826.9963 2.5H57.7463C59.8141 2.5 61.4963 4.18225 61.4963 6.25V20.4966Z"
+                                        fill="white" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1_4723">
+                                        <rect width="64" height="64" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <div class="h3 mb-2 mt-5 fw-semibold text-white">${doc.CTA_title}</div>
+                            <p class="mb-4 text-white">${doc.CTA_para}</p>
+                            <a href="${doc.CTA_button}" class="btn btn-primary">
+                                <span>Get in Touch <i class="ti ti-arrow-up-right"></i></span>
+                                <span>Get in Touch <i class="ti ti-arrow-up-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+    </div>
     
                 `;
-                setupDropdownButtons();              
-    } catch (error) {
-        document.getElementById(
-            "doc-container"
-        ).innerHTML = `<p class="not-found">❌ Failed to load document data.</p>`;
-        console.error("Error loading JSON:", error);
-    }
-    }
 
+        // After the form is loaded in the DOM, set up the form handler
+        setupFormHandler();
+        setupDropdownButtons();
+      } catch (error) {
+        console.error("Error loading document:", error);
+        document.getElementById(
+          "doc-container"
+        ).innerHTML = `<p class="not-found">⚠️  Error in form</p>`;
+      }
+    }
+    
+
+    // Initialize when document is ready
+    loadDocumentPage();
+    
+
+    // After the form is loaded in the DOM, set up the form handler
+    setupFormHandler();
+    setupDropdownButtons();
+  } catch (error) {
+    console.error("Error loading document:", error);
+    document.getElementById(
+      "doc-container"
+    ).innerHTML = `<p class="not-found">⚠️ Error in form</p>`;
+  }
+}
+
+// Initialize when document is ready
 loadDocumentPage();
